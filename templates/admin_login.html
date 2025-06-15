@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}Login do Administrador{% endblock %}
+{% block content %}
+<div class="login-container">
+    <div class="form-box">
+        <header>
+            <h1>Acesso Restrito</h1>
+            <p>Área exclusiva para o administrador.</p>
+        </header>
+        <form method="POST" action="{{ url_for('admin_login') }}">
+            <div class="form-step">
+                <input type="text" id="nome" name="nome" placeholder="Usuário Admin" required>
+            </div>
+            <div class="form-step">
+                <input type="password" id="senha" name="senha" placeholder="Senha Admin" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+            <br>
+            <br>
+        </form>
+         <div class="form-switch">
+            <p><a href="{{ url_for('login') }}" class="btn btn-secondary">Voltar para o login de cliente</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

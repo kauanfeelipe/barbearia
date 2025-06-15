@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% block title %}Relatório Financeiro{% endblock %}
+{% block content %}
+<header>
+    <h1>Relatório Financeiro</h1>
+    <p>Acompanhe a performance financeira da sua barbearia.</p>
+</header>
+
+<div class="dashboard-section">
+    <h2>Visão Geral Rápida</h2>
+    <div class="finance-cards">
+        <div class="card">
+            <h3>Faturamento de Hoje</h3>
+            <p class="valor">R$ {{ "%.2f"|format(dados.hoje) }}</p>
+        </div>
+        <div class="card">
+            <h3>Faturamento do Mês Atual</h3>
+            <p class="valor">R$ {{ "%.2f"|format(dados.mes_atual) }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-section">
+    <h2>Análise Detalhada</h2>
+
+    <div class="filtros-container">
+        <form action="{{ url_for('admin_financeiro') }}" method="POST" class="form-filtro">
+            <label for="data_filtro">Ver detalhes de um dia:</label>
+            <input type="date" id="data_filtro" name="data_filtro" value="{{ data_filtro }}">
+            <button type="submit" class="btn btn-primary btn-sm">Filtrar Dia</button>
+        </form>
+        <form action="{{ url_for('admin_financeiro') }}" method="POST" class="form-filtro">
+            <label for="mes_filtro">Ver resumo de um mês:</label>
+            <input type="month" id="mes_filtro" name="mes_filtro" value="{{ mes_filtro }}">
+            <button type="submit" class="btn btn-primary btn-sm">Filtrar Mês</button>
+        </form>
+    </div>
+    
+    <div class="resumo-dia">
+        <h3>Detalhes para {{ data_formatada }}: 
+            <span class="valor-total-dia">Total R$ {{ "%.2f"|format(dados.total_dia_filtrado) }}</span>
+        </h3>
+    </div>
+    {% if agendamentos_dia %}
+    <table class="dashboard-table">
+        <thead><tr><th>Cliente</th><th>Serviço</th><th>Valor</th></tr></thead>
+        <tbody>
+            {% for ag in agendamentos_dia %}
+            <tr>
+                <td data-label="Cliente">{{ ag.cliente }}</td>
+                <td data-label="Serviço">{{ ag.servico }}</td>
+                <td data-label="Valor">R$ {{ "%.2f"|format(ag.preco) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Nenhum serviço concluído encontrado para esta data.</p>
+    {% endif %}
+
+    <hr class="separator">
+
+    <div class="resumo-dia">
+        <h3>Resumo de {{ mes_formatado }}:
+            <span class="valor-total-dia">Total R$ {{ "%.2f"|format(dados.total_mes_filtrado) }}</span>
+        </h3>
+    </div>
+    {% if faturamento_servicos_mes %}
+    <table class="dashboard-table">
+        <thead><tr><th>Serviço</th><th>Faturamento no Mês</th></tr></thead>
+        <tbody>
+            {% for item in faturamento_servicos_mes %}
+            <tr>
+                <td data-label="Serviço">{{ item.servico_nome }}</td>
+                <td data-label="Faturamento">R$ {{ "%.2f"|format(item.total_servico) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Nenhum serviço concluído encontrado para este mês.</p>
+    {% endif %}
+</div>
+
+<style>
+    .filtros-container { display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem; }
+    .form-filtro { display: flex; flex-direction: column; gap: 0.5rem; }
+    .resumo-dia { margin-top: 1.5rem; padding: 1rem; background-color: var(--dark-color); border-radius: var(--border-radius); text-align: center; }
+    .valor-total-dia { color: var(--success-color); font-weight: 700; }
+    .separator { border: none; border-top: 1px solid #444; margin: 3rem 0; }
+</style>
+{% endblock %}

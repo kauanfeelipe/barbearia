@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block title %}Painel do Administrador{% endblock %}
+{% block content %}
+<header>
+    <h1>Painel do Administrador</h1>
+    <p>Gerencie e consulte os agendamentos da barbearia.</p>
+</header>
+
+<div class="admin-nav">
+    <a href="{{ url_for('admin_servicos') }}" class="btn btn-secondary">Gerenciar Serviços</a>
+    <a href="{{ url_for('admin_bloqueios') }}" class="btn btn-secondary">Bloquear Horários</a>
+    <a href="{{ url_for('admin_clientes') }}" class="btn btn-secondary">Listar Clientes</a>
+    <a href="{{ url_for('admin_financeiro') }}" class="btn btn-secondary">Financeiro</a> 
+</div>
+
+<div class="dashboard-section">
+    <h2>Consultar Agenda por Dia</h2>
+    <div class="form-step">
+        <input type="text" id="admin-datepicker" placeholder="Selecione uma data para consultar...">
+    </div>
+    <div id="agenda-do-dia-container" class="dashboard-section"></div>
+</div>
+
+<div class="dashboard-section">
+    <h2>Agendamentos (Hoje e Futuros)</h2>
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Cliente</th>
+                <th>Telefone</th>
+                <th>Serviço</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ag in agendamentos %}
+            <tr>
+                <td data-label="Data">{{ ag.data_agendamento.strftime('%d/%m/%Y') }}</td>
+                <td data-label="Hora">{{ ag.hora_agendamento }}</td>
+                <td data-label="Cliente">{{ ag.cliente_nome }}</td>
+                <td data-label="Telefone">{{ ag.telefone }}</td>
+                <td data-label="Serviço">{{ ag.servico_nome }}</td>
+                <td data-label="Status"><span class="status-{{ ag.status.lower().replace(' ', '-') }}">{{ ag.status }}</span></td>
+                <td data-label="Ações" class="actions-cell">
+    
+    {% if ag.status != 'Cancelado pelo Cliente' %}
+
+        {% if ag.status == 'Agendado' %}
+        <form class="form-inline" action="{{ url_for('mudar_status_agendamento_admin', agendamento_id=ag.id, novo_status='Concluído') }}" method="POST">
+            <button type="submit" class="btn btn-success btn-sm" title="Marcar como Concluído">Concluir</button>
+        </form>
+        {% endif %}
+
+        {% if ag.status == 'Agendado' %}
+        <form class="form-inline" action="{{ url_for('mudar_status_agendamento_admin', agendamento_id=ag.id, novo_status='Cancelado pelo Admin') }}" method="POST">
+            <button type="submit" class="btn btn-warning btn-sm" title="Cancelar Agendamento">Cancelar</button>
+        </form>
+        {% endif %}
+
+    {% endif %}
+
+    <form class="form-inline" action="{{ url_for('delete_agendamento', agendamento_id=ag.id) }}" method="POST" onsubmit="return confirm('ATENÇÃO: Isso irá DELETAR o agendamento para sempre. Deseja continuar?');">
+        <button type="submit" class="btn btn-danger btn-sm" title="Deletar Permanentemente">Deletar</button>
+    </form>
+
+</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

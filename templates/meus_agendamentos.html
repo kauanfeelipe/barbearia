@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}Meus Agendamentos{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Meus Agendamentos</h1>
+    <p>Aqui estão seus próximos horários agendados na barbearia.</p>
+</header>
+
+<div class="dashboard-section">
+    <h2>Próximos Agendamentos</h2>
+    {% if futuros %}
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Serviço</th>
+                <th>Status</th>
+                <th>Ação</th> </tr>
+        </thead>
+        <tbody>
+            {% for ag in futuros %}
+            <tr>
+                <td data-label="Data">{{ ag.data_agendamento.strftime('%d/%m/%Y') }}</td>
+                <td data-label="Hora">{{ ag.hora_agendamento }}</td>
+                <td data-label="Serviço">{{ ag.servico }}</td>
+                <td data-label="Status"><span class="status-{{ ag.status.lower().replace(' ', '-') }}">{{ ag.status }}</span></td>
+                <td data-label="Ação">
+                    {% if ag.status == 'Agendado' %}
+                    <form action="{{ url_for('cancelar_agendamento_cliente', agendamento_id=ag.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja cancelar este agendamento?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                    </form>
+                    {% else %}
+                    <span>-</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Você não tem nenhum horário agendado.</p>
+    {% endif %}
+</div>
+{% endblock %}

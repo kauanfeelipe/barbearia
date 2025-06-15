@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Detalhes de {{ cliente.nome }}{% endblock %}
+{% block content %}
+<header>
+    <h1>Detalhes de {{ cliente.nome }}</h1>
+    <a href="{{ url_for('admin_clientes') }}" class="btn btn-secondary">&larr; Voltar para a lista de clientes</a>
+</header>
+
+<div class="dashboard-section">
+    <h2>Dados do Cliente</h2>
+    <p><strong>Nome:</strong> {{ cliente.nome }}</p>
+    <p><strong>Email:</strong> {{ cliente.email }}</p>
+    <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+</div>
+
+<div class="dashboard-section">
+    <h2>Histórico de Agendamentos</h2>
+    {% if agendamentos %}
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Serviço</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ag in agendamentos %}
+            <tr>
+                <td data-label="Data">{{ ag.data_agendamento.strftime('%d/%m/%Y') }}</td>
+                <td data-label="Hora">{{ ag.hora_agendamento }}</td>
+                <td data-label="Serviço">{{ ag.servico }}</td>
+                <td data-label="Status"><span class="status-{{ ag.status.lower().replace(' ', '-') }}">{{ ag.status }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Este cliente não possui agendamentos.</p>
+    {% endif %}
+</div>
+{% endblock %}

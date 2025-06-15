@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Barbearia Agendamento{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icone.png') }}" type="image/png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="{{ url_for('admin_dashboard') if current_user.is_authenticated and current_user.role == 'admin' else url_for('agendar') if current_user.is_authenticated else url_for('login') }}" class="nav-logo">
+                kauanzera Barber
+            </a>
+            
+            {% if current_user.is_authenticated %}
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            {% endif %}
+
+            {% if current_user.is_authenticated %}
+                <ul class="nav-menu" id="nav-menu">
+                    {% if current_user.role == 'admin' %}
+                        <li><a href="{{ url_for('admin_dashboard') }}">Painel</a></li>
+                        <li><a href="{{ url_for('admin_servicos') }}">Serviços</a></li>
+                        <li><a href="{{ url_for('admin_bloqueios') }}">Bloqueios</a></li>
+                        <li><a href="{{ url_for('admin_clientes') }}">Clientes</a></li>
+                        <li><a href="{{ url_for('admin_financeiro') }}">Financeiro</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('agendar') }}">Agendar</a></li>
+                        <li><a href="{{ url_for('meus_agendamentos') }}">Meus Agendamentos</a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+
+            <div class="nav-profile">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('perfil') }}" class="profile-link" title="Ver Perfil">
+                    <img src="{{ url_for('static', filename='profile_pics/' + current_user.foto_perfil) if current_user.foto_perfil else url_for('static', filename='profile_pics/default.png') }}" alt="Perfil" class="nav-profile-pic">
+                    <span>{{ current_user.nome }}</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="logout-link" title="Sair">Sair</a>
+            {% else %}
+                 <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Login / Cadastro</a>
+            {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer><p>Developer Kauan Felipe &copy; 2025</p></footer>
+    
+    <div id="modal-feedback" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p id="feedback-message"></p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

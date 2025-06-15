@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}Agendar Horário{% endblock %}
+{% block content %}
+<main>
+    <form id="form-agendamento">
+<div class="form-step">
+    <h2>1. Escolha o serviço</h2>
+    <div class="custom-select-wrapper" id="custom-select-servico">
+        <div class="custom-select-trigger">
+            <span>Selecione um serviço...</span>
+        </div>
+        <div class="custom-options">
+            </div>
+    </div>
+    <select id="select-servico" name="servico" required style="display: none;"></select>
+</div>
+        <div class="form-step">
+            <h2>2. Escolha a data</h2>
+            <input type="text" id="datepicker" placeholder="Selecione um serviço primeiro..." required disabled>
+        </div>
+        <div class="form-step">
+            <h2>3. Escolha o horário</h2>
+            <div id="horarios-disponiveis" class="horarios-grid">
+                <p>Selecione uma data para ver os horários.</p>
+            </div>
+            <input type="hidden" id="hora-selecionada" name="hora" required>
+        </div>
+        <button type="submit" id="btn-agendar" class="btn btn-primary">Confirmar Agendamento</button>
+    </form>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}

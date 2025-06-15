@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block title %}Bloquear Horários{% endblock %}
+{% block content %}
+<header>
+    <h1>Bloquear Horários</h1>
+    <p>Bloqueie datas ou períodos específicos para almoço, férias ou outros compromissos.</p>
+</header>
+
+<div class="dashboard-section">
+    <h2>Novo Bloqueio</h2>
+    <form action="{{ url_for('add_bloqueio') }}" method="POST" class="form-grid">
+        <input type="date" name="data" required>
+        <input type="time" name="hora_inicio" required min="09:00" max="18:00">
+        <input type="time" name="hora_fim" required min="09:00" max="18:00">
+        <input type="text" name="motivo" placeholder="Motivo (opcional)">
+        <button type="submit" class="btn btn-danger">Bloquear Horário</button>
+    </form>
+</div>
+
+<div class="dashboard-section">
+    <h2>Horários Bloqueados</h2>
+    {% if bloqueios %}
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Início</th>
+                <th>Fim</th>
+                <th>Motivo</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bloqueio in bloqueios %}
+            <tr>
+                <td>{{ bloqueio.data_bloqueio.strftime('%d/%m/%Y') }}</td>
+                <td>{{ bloqueio.hora_inicio }}</td>
+                <td>{{ bloqueio.hora_fim }}</td>
+                <td>{{ bloqueio.motivo or '-' }}</td>
+                <td>
+                    <form action="{{ url_for('delete_bloqueio', bloqueio_id=bloqueio.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este bloqueio?');">
+                        <button type="submit" class="btn btn-danger">Remover</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Nenhum horário bloqueado encontrado.</p>
+    {% endif %}
+</div>
+{% endblock %}

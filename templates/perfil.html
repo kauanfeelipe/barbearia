@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block title %}Meu Perfil{% endblock %}
+{% block content %}
+<header>
+    <h1>Meu Perfil</h1>
+    <p>Gerencie suas informações pessoais, senha e foto de perfil.</p>
+</header>
+
+<div class="perfil-container">
+    <div class="perfil-card">
+        <h2>Foto de Perfil</h2>
+        <img src="{{ url_for('static', filename='profile_pics/' + current_user.foto_perfil) }}" alt="Foto de Perfil" class="perfil-foto-grande">
+        <form action="{{ url_for('upload_foto') }}" method="POST" enctype="multipart/form-data" class="form-foto">
+            <input type="file" name="foto" accept="image/*" required class="input-file">
+            <button type="submit" class="btn btn-primary">Enviar Nova Foto</button>
+        </form>
+        <br>
+        {% if current_user.foto_perfil != 'default.png' %}
+        <form action="{{ url_for('remover_foto') }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover sua foto de perfil?');">
+            <button type="submit" class="btn btn-danger">Remover Foto</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <div class="perfil-card">
+        <h2>Editar Dados</h2>
+        <form action="{{ url_for('editar_dados') }}" method="POST">
+            <div class="form-step">
+                <label for="nome">Nome de Usuário</label>
+                <input type="text" id="nome" name="nome" value="{{ current_user.nome }}" required>
+            </div>
+            <div class="form-step">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ current_user.email }}" required>
+            </div>
+            <div class="form-step">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" value="{{ current_user.telefone }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar Dados</button>
+        </form>
+    </div>
+
+    <div class="perfil-card">
+        <h2>Mudar Senha</h2>
+        <form action="{{ url_for('mudar_senha') }}" method="POST">
+            <div class="form-step">
+                <label for="senha_atual">Senha Atual</label>
+                <input type="password" id="senha_atual" name="senha_atual" required>
+            </div>
+            <div class="form-step">
+                <label for="nova_senha">Nova Senha</label>
+                <input type="password" id="nova_senha" name="nova_senha" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Mudar Senha</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

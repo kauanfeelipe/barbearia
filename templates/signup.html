@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Cadastre-se{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="form-box">
+        <header>
+            <h1>Crie sua Conta</h1>
+            
+        </header>
+        <form method="POST" action="{{ url_for('signup') }}">
+            <div class="form-step">
+                <input type="text" name="nome" placeholder="Seu nome completo" required>
+            </div>
+            <div class="form-step">
+                <input type="email" name="email" placeholder="Seu e-mail" required>
+            </div>
+             <div class="form-step">
+                <input type="tel" name="telefone" placeholder="Seu Telefone (WhatsApp)" required>
+            </div>
+            <div class="form-step">
+                <input type="password" name="senha" placeholder="Crie uma senha" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+         <div class="form-switch">
+            <p>Já tem uma conta? <a href="{{ url_for('login') }}" class="btn btn-secondary">Faça o login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
