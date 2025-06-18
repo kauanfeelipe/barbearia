@@ -1,0 +1,12 @@
+# Ambiente Virtual
+venv/
+
+# Cache da Numba
+numba_cache/
+
+# Cache do Python
+__pycache__/
+*.pyc
+
+# Arquivos de Variáveis de Ambiente
+.env
