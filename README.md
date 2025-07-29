@@ -27,15 +27,8 @@ Um projeto full-stack desenvolvido com **Python e Flask**, criado para fornecer 
 
 ---
 📸 Imagens do Sistema
-<p align="center"> 
-  <img src="![1750818669142](https://github.com/user-attachments/assets/925832c3-b2f6-4292-b1ac-2c506f0a2a59)
-" width="400" /> 
-  <img src="![1750818669159](https://github.com/user-attachments/assets/cc8d21b8-5204-46c2-987d-5a73ad80bf80)
-" width="400" /> </p> <p align="center"> 
-  <img src="![1750818669372](https://github.com/user-attachments/assets/619236e0-3a6e-40cf-a9e8-97b5699489ce)
-" width="400" /> <img src="![1750818669262](https://github.com/user-attachments/assets/fcdbf49b-8f26-44c9-a34f-e3c4450aa8d1)
-" width="400" /> </p> <p align="center"> <img src="![1750818669251](https://github.com/user-attachments/assets/0717e2b6-e38c-4288-8102-05c0de2421d4)
-" width="400" /> </p>
+![1750818669083](https://github.com/user-attachments/assets/086a35ba-f6fd-43cc-bfae-2028e2920212)
+
 
 ## 🛠️ Arquitetura & Tecnologias
 
