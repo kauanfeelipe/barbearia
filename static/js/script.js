@@ -1,16 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-
-    // --- ELEMENTOS GLOBAIS ---
     const formAgendamento = document.getElementById('form-agendamento');
-    if (!formAgendamento) return; // Sai se não estiver na página de agendamento
-
-    // --- ELEMENTOS DO SELETOR CUSTOMIZADO ---
+    if (!formAgendamento) return; 
     const customSelectWrapper = document.getElementById('custom-select-servico');
     const customSelectTrigger = customSelectWrapper.querySelector('.custom-select-trigger');
     const customOptionsContainer = customSelectWrapper.querySelector('.custom-options');
     const triggerText = customSelectTrigger.querySelector('span');
-    
-    // --- ELEMENTOS DO FORMULÁRIO E MODAL ---
     const selectServicoOriginal = document.getElementById('select-servico');
     const datepickerInput = document.getElementById('datepicker');
     const horariosContainer = document.getElementById('horarios-disponiveis');
@@ -19,11 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('modal-feedback');
     const modalMessage = document.getElementById('feedback-message');
     const closeButton = modal ? modal.querySelector('.close-button') : null;
-
-    // --- VARIÁVEL GLOBAL PARA FERIADOS ---
     let feriados = [];
-
-    // --- FUNÇÕES AUXILIARES ---
+    
     function mostrarModal(mensagem) {
         if (modal && modalMessage) {
             modalMessage.innerHTML = mensagem;
@@ -59,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // --- LÓGICA DO SELETOR CUSTOMIZADO ---
     if (customSelectWrapper) {
         customSelectTrigger.addEventListener('click', () => {
             customSelectWrapper.classList.toggle('open');
@@ -71,9 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- INICIALIZAÇÃO E LÓGICA PRINCIPAL ---
-
-    // 1. Busca os serviços e popula o seletor customizado
     fetch('/api/servicos')
         .then(response => response.json())
         .then(servicos => {
@@ -107,18 +94,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-    // 2. Busca a lista de feriados e DEPOIS inicializa o calendário
     fetch('/api/feriados')
         .then(res => res.json())
         .then(data => {
             feriados = data;
-            // A inicialização do Flatpickr agora acontece aqui dentro
             flatpickr(datepickerInput, {
                 locale: 'pt',
                 dateFormat: "Y-m-d",
                 minDate: "today",
                 disable: [ date => (date.getDay() === 0 || date.getDay() === 1) ],
-                // LÓGICA PARA DESTACAR FERIADOS (PARTE 1)
+
                 onDayCreate: function(dObj, dStr, fp, dayElem) {
                     const dateStr = dayElem.dateObj.toISOString().slice(0, 10);
                     if (feriados.includes(dateStr)) {
@@ -126,12 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         dayElem.title = "Feriado! Barbearia fechada.";
                     }
                 },
-                // LÓGICA PARA BLOQUEAR O CLIQUE EM FERIADOS (PARTE 2)
                 onChange: function(selectedDates, dateStr, instance) {
                     if (feriados.includes(dateStr)) {
                         mostrarModal("<b>Feriado!</b><br>A barbearia não funciona neste dia. Por favor, escolha outra data.");
                         horariosContainer.innerHTML = '<p>Dia selecionado é um feriado.</p>';
-                        instance.clear(); // Limpa a data inválida
+                        instance.clear(); 
                         return;
                     }
                     carregarHorarios(dateStr);
@@ -139,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-    // 3. O resto dos listeners (horários, submit do formulário, modal)
     horariosContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('horario-btn')) {
             document.querySelectorAll('.horario-btn.selected').forEach(btn => btn.classList.remove('selected'));

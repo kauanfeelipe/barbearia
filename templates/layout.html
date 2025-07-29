@@ -12,7 +12,7 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="{{ url_for('admin_dashboard') if current_user.is_authenticated and current_user.role == 'admin' else url_for('agendar') if current_user.is_authenticated else url_for('login') }}" class="nav-logo">
-                kauanzera Barber
+                kF Barbearia
             </a>
             
             {% if current_user.is_authenticated %}

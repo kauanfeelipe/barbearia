@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* --- VARIÁVEIS GLOBAIS E RESET --- */
 :root {
     --primary-color: #c5a47e;
     --primary-hover-color: #e0b88a;
@@ -211,16 +210,11 @@ input:disabled { background-color: #444; cursor: not-allowed; }
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Sombra suave no hover */
 }
-/* Em seu arquivo style.css, substitua a regra .btn-primary existente por esta */
 
 .btn-primary {
     background-color: var(--primary-color);
     color: var(--dark-color);
-    border: 1px solid #777; /* Você pode remover esta borda se quiser, já que .btn não tem */
-
-    /* --- ESTILO PADRÃO (MOBILE FIRST) --- */
-    /* Por padrão, o botão ocupa toda a largura disponível.
-       Fica ótimo em formulários no celular. */
+    border: 1px solid #777; 
     width: 100%; 
 }
 
@@ -231,7 +225,6 @@ input:disabled { background-color: #444; cursor: not-allowed; }
 
 /* --- AJUSTE PARA TELAS MAIORES (DESKTOP) --- */
 @media (min-width: 768px) {
-    /* MUDANÇA: A regra agora se aplica a ambos os botões */
     .btn-primary,
     .btn-secondary {
         display: block;
@@ -736,8 +729,6 @@ footer p {
         padding: 1.5rem 1rem;
     }
 }
-
-/* Adicione este código junto com .btn-primary, .btn-secondary, etc. */
 
 .btn-warning {
     background-color: var(--warning-color);
