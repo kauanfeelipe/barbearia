@@ -71,6 +71,7 @@ Um projeto full-stack desenvolvido com **Python e Flask**, criado para fornecer 
 Crie e ative o ambiente virtual
 
 python -m venv venv
+
 .\venv\Scripts\activate  # No Windows
 
 Instale as dependências
@@ -81,8 +82,11 @@ Configure as variáveis de ambiente
 Crie um arquivo .env com:
 
 DB_HOST=localhost
+
 DB_USER=root
+
 DB_PASSWORD=sua_senha
+
 DB_NAME=barbearia
 
 
