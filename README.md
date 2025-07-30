@@ -66,7 +66,7 @@ Um projeto full-stack desenvolvido com **Python e Flask**, criado para fornecer 
 
 1. **Clone o repositório**
    ```bash
-   git clone https://github.com/seu-usuario/barbearia_agendamento.git
+   git clone https://github.com/kauanfeelipe/barbearia.git
    cd barbearia_agendamento
 Crie e ative o ambiente virtual
 
